@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 const Map = (props) => {
   return (
@@ -18,9 +18,61 @@ const Map = (props) => {
         {props.bathroom.data && props.singleClosest ? (
           props.bathroom.data.map((room, idx) => {
             const distance = room.distance.toFixed(2);
-            const firstElemOfName = room.name.slice(0, 1);
-            const isNum = parseInt(firstElemOfName);
+
             if (idx < 1) {
+              if (room.name !== null) {
+                const firstElemOfName = room.name.slice(0, 1);
+                const isNum = parseInt(firstElemOfName);
+                if (isNaN(isNum)) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainer}>
+                        <Text>{`${room.name}`}</Text>
+                        <Text>{room.street}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`Closest restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                } else if (isNaN(isNum) === false) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainerNoName}>
+                        <Text>{`${room.street}`}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`Closest restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                }
+              }
+            }
+          })
+        ) : (
+          <View />
+        )}
+        {props.bathroom.data && props.allClosest ? (
+          props.bathroom.data.map((room) => {
+            const distance = room.distance.toFixed(2);
+            if (room.name !== null) {
+              const firstElemOfName = room.name.slice(0, 1);
+              const isNum = parseInt(firstElemOfName);
               if (isNaN(isNum)) {
                 return (
                   <Marker
@@ -33,10 +85,10 @@ const Map = (props) => {
                   >
                     <Callout style={styles.infoContainer}>
                       <Text>{`${room.name}`}</Text>
-                      <Text>{`${room.street}`}</Text>
+                      <Text>{room.street}</Text>
                       <Text
                         style={styles.info}
-                      >{`Closest restroom is ${distance} miles away`}</Text>
+                      >{`This restroom is ${distance} miles away`}</Text>
                     </Callout>
                   </Marker>
                 );
@@ -54,58 +106,11 @@ const Map = (props) => {
                       <Text>{`${room.street}`}</Text>
                       <Text
                         style={styles.info}
-                      >{`Closest restroom is ${distance} miles away`}</Text>
+                      >{`This restroom is ${distance} miles away`}</Text>
                     </Callout>
                   </Marker>
                 );
               }
-            }
-          })
-        ) : (
-          <View />
-        )}
-        {props.bathroom.data && props.allClosest ? (
-          props.bathroom.data.map((room) => {
-            const distance = room.distance.toFixed(2);
-            const firstElemOfName = room.name.slice(0, 1);
-            const isNum = parseInt(firstElemOfName);
-            if (isNaN(isNum)) {
-              return (
-                <Marker
-                  key={room.id}
-                  image={require('../assets/real-toilet-pin.png')}
-                  coordinate={{
-                    latitude: room.latitude,
-                    longitude: room.longitude,
-                  }}
-                >
-                  <Callout style={styles.infoContainer}>
-                    <Text>{`${room.name}`}</Text>
-                    <Text>{`${room.street}`}</Text>
-                    <Text
-                      style={styles.info}
-                    >{`This restroom is ${distance} miles away`}</Text>
-                  </Callout>
-                </Marker>
-              );
-            } else if (isNaN(isNum) === false) {
-              return (
-                <Marker
-                  key={room.id}
-                  image={require('../assets/real-toilet-pin.png')}
-                  coordinate={{
-                    latitude: room.latitude,
-                    longitude: room.longitude,
-                  }}
-                >
-                  <Callout style={styles.infoContainerNoName}>
-                    <Text>{`${room.street}`}</Text>
-                    <Text
-                      style={styles.info}
-                    >{`This restroom is ${distance} miles away`}</Text>
-                  </Callout>
-                </Marker>
-              );
             }
           })
         ) : (
