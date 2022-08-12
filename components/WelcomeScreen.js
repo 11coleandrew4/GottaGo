@@ -81,13 +81,13 @@ export default function WelcomeScreen() {
       <View style={styles.welcomeButtons}>
         <TouchableOpacity onPress={touchHandlerClosest}>
           <View style={styles.closestRestroomButton}>
-            <Text style={styles.buttonText}>Closest Restroom</Text>
+            <Text style={styles.closestButtonText}>Closest Restroom</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={touchHandlerNearby}>
           <View style={styles.allRestroomsButton}>
-            <Text style={styles.buttonText}>All Nearby Restrooms</Text>
+            <Text style={styles.allNearButtonText}>All Nearby Restrooms</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -102,41 +102,48 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   welcomeButtons: {
-    marginBottom: 40,
+    marginBottom: '8%',
   },
   closestRestroomButton: {
     width: '100%',
-    height: 100,
+    aspectRatio: 10 / 2.8,
     backgroundColor: '#fc5c65',
     marginRight: 10,
-    marginBottom: 30,
+    bottom: '10%',
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
   },
   allRestroomsButton: {
     width: '100%',
-    height: 100,
+    aspectRatio: 10 / 2.8,
     backgroundColor: 'yellow',
-    marginRight: 10,
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
   },
-  buttonText: {
+  closestButtonText: {
     textAlign: 'center',
-    paddingTop: 25,
+    paddingTop: '7%',
     fontSize: 35,
+    fontWeight: 'bold',
+  },
+  allNearButtonText: {
+    textAlign: 'center',
+    paddingTop: '8%',
+    fontSize: 30,
     fontWeight: 'bold',
   },
   map: {
     marginBottom: 220,
   },
+
   logo: {
     flex: 1,
-    width: 700,
-    right: '30%',
-    height: 700,
-    marginBottom: 160,
+    width: '100%',
+    left: '4%',
+    alignSelf: 'center',
+    aspectRatio: 10 / 6,
+    bottom: 95,
   },
 });
