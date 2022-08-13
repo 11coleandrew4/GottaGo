@@ -18,6 +18,8 @@ export default function WelcomeScreen() {
 
   let [allNearby, setAllNearby] = React.useState(false);
 
+  let [accessible, setAccessible] = React.useState(false);
+
   const [myLocation, setMyLocation] = React.useState({
     latitude: 41.881832,
     longitude: -87.623177,
@@ -62,6 +64,11 @@ export default function WelcomeScreen() {
 
     setAllNearby(!allNearby);
     setClosestPin(false);
+    console.log(bathroomObj);
+  };
+
+  const touchHandlerAccessible = () => {
+    setAccessible(!accessible);
   };
 
   return (
@@ -74,6 +81,7 @@ export default function WelcomeScreen() {
         <Map
           allClosest={allNearby}
           singleClosest={closestPin}
+          isAccessible={accessible}
           location={myLocation}
           bathroom={closestBathroom}
         />
@@ -85,9 +93,32 @@ export default function WelcomeScreen() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={touchHandlerNearby}>
+        {accessible ? (
+          <TouchableOpacity
+            style={styles.accessibleButtonActiveTouch}
+            onPress={touchHandlerAccessible}
+          >
+            <View style={styles.accessibleButtonActive}>
+              <Text style={styles.accessibleText}>ADA</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.accessibleButtonTouch}
+            onPress={touchHandlerAccessible}
+          >
+            <View style={styles.accessibleButton}>
+              <Text style={styles.accessibleText}>ADA</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity
+          style={styles.allNearbyTouch}
+          onPress={touchHandlerNearby}
+        >
           <View style={styles.allRestroomsButton}>
-            <Text style={styles.allNearButtonText}>All Nearby Restrooms</Text>
+            <Text style={styles.allNearButtonText}>All Nearby</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -100,6 +131,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     padding: 10,
+  },
+  accessibleButtonActiveTouch: {
+    zIndex: 10,
+  },
+  accessibleButtonTouch: {
+    zIndex: 10,
   },
   welcomeButtons: {
     marginBottom: '8%',
@@ -115,23 +152,46 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   allRestroomsButton: {
-    width: '100%',
+    width: '70%',
+    left: '29%',
     aspectRatio: 10 / 2.8,
     backgroundColor: 'yellow',
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
   },
+  accessibleButton: {
+    width: '25%',
+    marginLeft: '1%',
+    position: 'absolute',
+    marginTop: '.55%',
+    aspectRatio: 10 / 7.3,
+    backgroundColor: 'dodgerblue',
+    borderRadius: '50%',
+    borderWidth: 5,
+    borderColor: 'black',
+  },
+  accessibleButtonActive: {
+    width: '25%',
+    marginLeft: '1%',
+    position: 'absolute',
+    marginTop: '.55%',
+    aspectRatio: 10 / 7.3,
+    backgroundColor: 'lawngreen',
+    borderRadius: '50%',
+    borderWidth: 5,
+    borderColor: 'black',
+  },
   closestButtonText: {
     textAlign: 'center',
-    paddingTop: '7%',
-    fontSize: 35,
+    paddingTop: '7.5%',
+    fontSize: 40,
     fontWeight: 'bold',
   },
   allNearButtonText: {
     textAlign: 'center',
-    paddingTop: '8%',
-    fontSize: 30,
+    paddingTop: '4.2%',
+    fontSize: 40,
     fontWeight: 'bold',
   },
   map: {
@@ -145,5 +205,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     aspectRatio: 10 / 6,
     bottom: 95,
+  },
+
+  accessibleText: {
+    textAlign: 'center',
+    paddingTop: '12%',
+    fontSize: 35,
+    fontWeight: 'bold',
   },
 });
