@@ -64,7 +64,6 @@ export default function WelcomeScreen() {
 
     setAllNearby(!allNearby);
     setClosestPin(false);
-    console.log(bathroomObj);
   };
 
   const touchHandlerAccessible = () => {
