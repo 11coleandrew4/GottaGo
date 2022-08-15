@@ -12,26 +12,85 @@ const Map = (props) => {
       }
     }
   }
+  let furthestRestroom = 0;
+  if (props.bathroom.data) {
+    furthestRestroom = props.bathroom.data[9].distance / 29.28;
+  }
+
+  console.log(furthestRestroom);
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        region={{
-          latitude: props.location.latitude,
-          longitude: props.location.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.0005,
-        }}
-        showsUserLocation={true}
-      >
-        {props.bathroom.data &&
-        props.singleClosest &&
-        props.isAccessible === false ? (
-          props.bathroom.data.map((room, idx) => {
-            const distance = room.distance.toFixed(2);
+      {furthestRestroom > 0.01 ? (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: props.location.latitude,
+            longitude: props.location.longitude,
+            latitudeDelta: furthestRestroom,
+            longitudeDelta: 0.0005,
+          }}
+          showsUserLocation={true}
+        >
+          {props.bathroom.data &&
+          props.singleClosest &&
+          props.isAccessible === false ? (
+            props.bathroom.data.map((room, idx) => {
+              const distance = room.distance.toFixed(2);
 
-            if (idx < 1) {
+              if (idx < 1) {
+                if (room.name !== null) {
+                  const firstElemOfName = room.name.slice(0, 1);
+                  const isNum = parseInt(firstElemOfName);
+                  if (isNaN(isNum)) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainer}>
+                          <Text>{`${room.name}`}</Text>
+                          <Text>{room.street}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  } else if (isNaN(isNum) === false) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainerNoName}>
+                          <Text>{`${room.street}`}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  }
+                }
+              }
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data &&
+          props.allClosest &&
+          props.isAccessible === false ? (
+            props.bathroom.data.map((room) => {
+              const distance = room.distance.toFixed(2);
               if (room.name !== null) {
                 const firstElemOfName = room.name.slice(0, 1);
                 const isNum = parseInt(firstElemOfName);
@@ -50,7 +109,7 @@ const Map = (props) => {
                         <Text>{room.street}</Text>
                         <Text
                           style={styles.info}
-                        >{`Closest restroom is ${distance} miles away`}</Text>
+                        >{`This restroom is ${distance} miles away`}</Text>
                       </Callout>
                     </Marker>
                   );
@@ -68,73 +127,71 @@ const Map = (props) => {
                         <Text>{`${room.street}`}</Text>
                         <Text
                           style={styles.info}
-                        >{`Closest restroom is ${distance} miles away`}</Text>
+                        >{`This restroom is ${distance} miles away`}</Text>
                       </Callout>
                     </Marker>
                   );
                 }
               }
-            }
-          })
-        ) : (
-          <View />
-        )}
-        {props.bathroom.data &&
-        props.allClosest &&
-        props.isAccessible === false ? (
-          props.bathroom.data.map((room) => {
-            const distance = room.distance.toFixed(2);
-            if (room.name !== null) {
-              const firstElemOfName = room.name.slice(0, 1);
-              const isNum = parseInt(firstElemOfName);
-              if (isNaN(isNum)) {
-                return (
-                  <Marker
-                    key={room.id}
-                    image={require('../assets/real-toilet-pin.png')}
-                    coordinate={{
-                      latitude: room.latitude,
-                      longitude: room.longitude,
-                    }}
-                  >
-                    <Callout style={styles.infoContainer}>
-                      <Text>{`${room.name}`}</Text>
-                      <Text>{room.street}</Text>
-                      <Text
-                        style={styles.info}
-                      >{`This restroom is ${distance} miles away`}</Text>
-                    </Callout>
-                  </Marker>
-                );
-              } else if (isNaN(isNum) === false) {
-                return (
-                  <Marker
-                    key={room.id}
-                    image={require('../assets/real-toilet-pin.png')}
-                    coordinate={{
-                      latitude: room.latitude,
-                      longitude: room.longitude,
-                    }}
-                  >
-                    <Callout style={styles.infoContainerNoName}>
-                      <Text>{`${room.street}`}</Text>
-                      <Text
-                        style={styles.info}
-                      >{`This restroom is ${distance} miles away`}</Text>
-                    </Callout>
-                  </Marker>
-                );
-              }
-            }
-          })
-        ) : (
-          <View />
-        )}
-        {props.bathroom.data && props.singleClosest && props.isAccessible ? (
-          accessibleRooms.map((room, idx) => {
-            const distance = room.distance.toFixed(2);
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data && props.singleClosest && props.isAccessible ? (
+            accessibleRooms.map((room, idx) => {
+              const distance = room.distance.toFixed(2);
 
-            if (idx < 1) {
+              if (idx < 1) {
+                if (room.name !== null) {
+                  const firstElemOfName = room.name.slice(0, 1);
+                  const isNum = parseInt(firstElemOfName);
+                  if (isNaN(isNum)) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainer}>
+                          <Text>{`${room.name}`}</Text>
+                          <Text>{room.street}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  } else if (isNaN(isNum) === false) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainerNoName}>
+                          <Text>{`${room.street}`}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  }
+                }
+              }
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data && props.allClosest && props.isAccessible ? (
+            accessibleRooms.map((room) => {
+              const distance = room.distance.toFixed(2);
               if (room.name !== null) {
                 const firstElemOfName = room.name.slice(0, 1);
                 const isNum = parseInt(firstElemOfName);
@@ -153,7 +210,7 @@ const Map = (props) => {
                         <Text>{room.street}</Text>
                         <Text
                           style={styles.info}
-                        >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
                       </Callout>
                     </Marker>
                   );
@@ -171,67 +228,236 @@ const Map = (props) => {
                         <Text>{`${room.street}`}</Text>
                         <Text
                           style={styles.info}
-                        >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
                       </Callout>
                     </Marker>
                   );
                 }
               }
-            }
-          })
-        ) : (
-          <View />
-        )}
-        {props.bathroom.data && props.allClosest && props.isAccessible ? (
-          accessibleRooms.map((room) => {
-            const distance = room.distance.toFixed(2);
-            if (room.name !== null) {
-              const firstElemOfName = room.name.slice(0, 1);
-              const isNum = parseInt(firstElemOfName);
-              if (isNaN(isNum)) {
-                return (
-                  <Marker
-                    key={room.id}
-                    image={require('../assets/real-toilet-pin.png')}
-                    coordinate={{
-                      latitude: room.latitude,
-                      longitude: room.longitude,
-                    }}
-                  >
-                    <Callout style={styles.infoContainer}>
-                      <Text>{`${room.name}`}</Text>
-                      <Text>{room.street}</Text>
-                      <Text
-                        style={styles.info}
-                      >{`This ADA accessable restroom is ${distance} miles away`}</Text>
-                    </Callout>
-                  </Marker>
-                );
-              } else if (isNaN(isNum) === false) {
-                return (
-                  <Marker
-                    key={room.id}
-                    image={require('../assets/real-toilet-pin.png')}
-                    coordinate={{
-                      latitude: room.latitude,
-                      longitude: room.longitude,
-                    }}
-                  >
-                    <Callout style={styles.infoContainerNoName}>
-                      <Text>{`${room.street}`}</Text>
-                      <Text
-                        style={styles.info}
-                      >{`This ADA accessable restroom is ${distance} miles away`}</Text>
-                    </Callout>
-                  </Marker>
-                );
+            })
+          ) : (
+            <View />
+          )}
+        </MapView>
+      ) : (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: props.location.latitude,
+            longitude: props.location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.0005,
+          }}
+          showsUserLocation={true}
+        >
+          {props.bathroom.data &&
+          props.singleClosest &&
+          props.isAccessible === false ? (
+            props.bathroom.data.map((room, idx) => {
+              const distance = room.distance.toFixed(2);
+
+              if (idx < 1) {
+                if (room.name !== null) {
+                  const firstElemOfName = room.name.slice(0, 1);
+                  const isNum = parseInt(firstElemOfName);
+                  if (isNaN(isNum)) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainer}>
+                          <Text>{`${room.name}`}</Text>
+                          <Text>{room.street}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  } else if (isNaN(isNum) === false) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainerNoName}>
+                          <Text>{`${room.street}`}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  }
+                }
               }
-            }
-          })
-        ) : (
-          <View />
-        )}
-      </MapView>
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data &&
+          props.allClosest &&
+          props.isAccessible === false ? (
+            props.bathroom.data.map((room) => {
+              const distance = room.distance.toFixed(2);
+              if (room.name !== null) {
+                const firstElemOfName = room.name.slice(0, 1);
+                const isNum = parseInt(firstElemOfName);
+                if (isNaN(isNum)) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainer}>
+                        <Text>{`${room.name}`}</Text>
+                        <Text>{room.street}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`This restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                } else if (isNaN(isNum) === false) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainerNoName}>
+                        <Text>{`${room.street}`}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`This restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                }
+              }
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data && props.singleClosest && props.isAccessible ? (
+            accessibleRooms.map((room, idx) => {
+              const distance = room.distance.toFixed(2);
+
+              if (idx < 1) {
+                if (room.name !== null) {
+                  const firstElemOfName = room.name.slice(0, 1);
+                  const isNum = parseInt(firstElemOfName);
+                  if (isNaN(isNum)) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainer}>
+                          <Text>{`${room.name}`}</Text>
+                          <Text>{room.street}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  } else if (isNaN(isNum) === false) {
+                    return (
+                      <Marker
+                        key={room.id}
+                        image={require('../assets/real-toilet-pin.png')}
+                        coordinate={{
+                          latitude: room.latitude,
+                          longitude: room.longitude,
+                        }}
+                      >
+                        <Callout style={styles.infoContainerNoName}>
+                          <Text>{`${room.street}`}</Text>
+                          <Text
+                            style={styles.info}
+                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        </Callout>
+                      </Marker>
+                    );
+                  }
+                }
+              }
+            })
+          ) : (
+            <View />
+          )}
+          {props.bathroom.data && props.allClosest && props.isAccessible ? (
+            accessibleRooms.map((room) => {
+              const distance = room.distance.toFixed(2);
+              if (room.name !== null) {
+                const firstElemOfName = room.name.slice(0, 1);
+                const isNum = parseInt(firstElemOfName);
+                if (isNaN(isNum)) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainer}>
+                        <Text>{`${room.name}`}</Text>
+                        <Text>{room.street}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                } else if (isNaN(isNum) === false) {
+                  return (
+                    <Marker
+                      key={room.id}
+                      image={require('../assets/real-toilet-pin.png')}
+                      coordinate={{
+                        latitude: room.latitude,
+                        longitude: room.longitude,
+                      }}
+                    >
+                      <Callout style={styles.infoContainerNoName}>
+                        <Text>{`${room.street}`}</Text>
+                        <Text
+                          style={styles.info}
+                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      </Callout>
+                    </Marker>
+                  );
+                }
+              }
+            })
+          ) : (
+            <View />
+          )}
+        </MapView>
+      )}
     </View>
   );
 };
