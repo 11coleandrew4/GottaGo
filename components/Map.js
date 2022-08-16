@@ -1,6 +1,13 @@
 import * as React from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import createOpenLink from 'react-native-open-maps';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 
 const Map = (props) => {
   let accessibleRooms = [];
@@ -17,7 +24,15 @@ const Map = (props) => {
     furthestRestroom = props.bathroom.data[9].distance / 29.28;
   }
 
-  console.log(furthestRestroom);
+  let getDirections = function () {};
+  if (props.bathroom.data) {
+    getDirections = (room) => {
+      createOpenLink({
+        provider: 'apple',
+        query: `http://maps.apple.com/?ll=${room.latitude},${room.longitude}`,
+      });
+    };
+  }
 
   return (
     <View style={styles.container}>
@@ -52,12 +67,19 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainer}>
-                          <Text>{`${room.name}`}</Text>
-                          <Text>{room.street}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainer}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.name}</Text>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -71,11 +93,18 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainerNoName}>
-                          <Text>{`${room.street}`}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainerNoName}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -89,7 +118,7 @@ const Map = (props) => {
           {props.bathroom.data &&
           props.allClosest &&
           props.isAccessible === false ? (
-            props.bathroom.data.map((room) => {
+            props.bathroom.data.map((room, idx) => {
               const distance = room.distance.toFixed(2);
               if (room.name !== null) {
                 const firstElemOfName = room.name.slice(0, 1);
@@ -104,12 +133,19 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainer}>
-                        <Text>{`${room.name}`}</Text>
-                        <Text>{room.street}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainer}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.name}</Text>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -123,11 +159,18 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainerNoName}>
-                        <Text>{`${room.street}`}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainerNoName}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -155,12 +198,19 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainer}>
-                          <Text>{`${room.name}`}</Text>
-                          <Text>{room.street}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainer}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{`${room.name}`}</Text>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -174,11 +224,18 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainerNoName}>
-                          <Text>{`${room.street}`}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainerNoName}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -205,12 +262,19 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainer}>
-                        <Text>{`${room.name}`}</Text>
-                        <Text>{room.street}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainer}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{`${room.name}`}</Text>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -224,11 +288,18 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainerNoName}>
-                        <Text>{`${room.street}`}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainerNoName}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -270,12 +341,19 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainer}>
-                          <Text>{`${room.name}`}</Text>
-                          <Text>{room.street}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainer}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.name}</Text>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -289,11 +367,18 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainerNoName}>
-                          <Text>{`${room.street}`}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainerNoName}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -307,7 +392,7 @@ const Map = (props) => {
           {props.bathroom.data &&
           props.allClosest &&
           props.isAccessible === false ? (
-            props.bathroom.data.map((room) => {
+            props.bathroom.data.map((room, idx) => {
               const distance = room.distance.toFixed(2);
               if (room.name !== null) {
                 const firstElemOfName = room.name.slice(0, 1);
@@ -322,12 +407,19 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainer}>
-                        <Text>{`${room.name}`}</Text>
-                        <Text>{room.street}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainer}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.name}</Text>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -341,11 +433,18 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainerNoName}>
-                        <Text>{`${room.street}`}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainerNoName}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -373,12 +472,19 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainer}>
-                          <Text>{`${room.name}`}</Text>
-                          <Text>{room.street}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainer}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{`${room.name}`}</Text>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -392,11 +498,18 @@ const Map = (props) => {
                           longitude: room.longitude,
                         }}
                       >
-                        <Callout style={styles.infoContainerNoName}>
-                          <Text>{`${room.street}`}</Text>
-                          <Text
-                            style={styles.info}
-                          >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                        <Callout
+                          style={styles.infoContainerNoName}
+                          onPress={() => getDirections(room)}
+                        >
+                          <TouchableOpacity>
+                            <View>
+                              <Text>{room.street}</Text>
+                              <Text
+                                style={styles.info}
+                              >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                            </View>
+                          </TouchableOpacity>
                         </Callout>
                       </Marker>
                     );
@@ -423,12 +536,19 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainer}>
-                        <Text>{`${room.name}`}</Text>
-                        <Text>{room.street}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainer}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{`${room.name}`}</Text>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
@@ -442,11 +562,18 @@ const Map = (props) => {
                         longitude: room.longitude,
                       }}
                     >
-                      <Callout style={styles.infoContainerNoName}>
-                        <Text>{`${room.street}`}</Text>
-                        <Text
-                          style={styles.info}
-                        >{`This ADA accessable restroom is ${distance} miles away`}</Text>
+                      <Callout
+                        style={styles.infoContainerNoName}
+                        onPress={() => getDirections(room)}
+                      >
+                        <TouchableOpacity>
+                          <View>
+                            <Text>{room.street}</Text>
+                            <Text
+                              style={styles.info}
+                            >{`Closest ADA accessable restroom is ${distance} miles away`}</Text>
+                          </View>
+                        </TouchableOpacity>
                       </Callout>
                     </Marker>
                   );
