@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import axios from 'axios';
 import * as Location from 'expo-location';
+import AccessibleLogo from './AccessibleLogo';
 
 import {
   StyleSheet,
@@ -108,7 +109,12 @@ export default function WelcomeScreen() {
             onPress={touchHandlerAccessible}
           >
             <View style={styles.accessibleButtonActive}>
-              <Text style={styles.accessibleText}>ADA</Text>
+              <View>
+                <Image
+                  source={require('../assets/accessible.png')}
+                  style={styles.accessibleLogoActive}
+                />
+              </View>
             </View>
           </TouchableOpacity>
         ) : (
@@ -117,7 +123,12 @@ export default function WelcomeScreen() {
             onPress={touchHandlerAccessible}
           >
             <View style={styles.accessibleButton}>
-              <Text style={styles.accessibleText}>ADA</Text>
+              <View>
+                <Image
+                  source={require('../assets/accessible.png')}
+                  style={styles.accessibleLogo}
+                />
+              </View>
             </View>
           </TouchableOpacity>
         )}
@@ -158,6 +169,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     padding: 10,
+  },
+  accessibleLogo: {
+    height: '100%',
+    aspectRatio: 10 / 10,
+    left: '35%',
+  },
+  accessibleLogoActive: {
+    height: '100%',
+    aspectRatio: 10 / 10,
+    left: '35%',
   },
   babyButtonTouch: {
     backgroundColor: 'white',
