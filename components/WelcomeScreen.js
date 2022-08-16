@@ -190,12 +190,14 @@ const styles = StyleSheet.create({
     left: '38%',
   },
   changingLogo: {
-    height: '100%',
+    height: '110%',
+    bottom: '9%',
     aspectRatio: 10 / 10,
     left: '35%',
   },
   changingLogoActive: {
-    height: '100%',
+    height: '110%',
+    bottom: '9%',
     aspectRatio: 10 / 10,
     left: '35%',
   },
