@@ -24,6 +24,16 @@ const Map = (props) => {
     furthestRestroom = props.bathroom.data[9].distance / 29.28;
   }
 
+  let babyRooms = [];
+  if (props.bathroom.data) {
+    for (let i = 0; i < props.bathroom.data.length; i++) {
+      let currentRoom = props.bathroom.data[i];
+      if (currentRoom.changing_table === true) {
+        babyRooms.push(currentRoom);
+      }
+    }
+  }
+
   let getDirections = function () {};
   if (props.bathroom.data) {
     getDirections = (room) => {
@@ -33,6 +43,8 @@ const Map = (props) => {
       });
     };
   }
+
+  console.log(babyRooms);
 
   return (
     <View style={styles.container}>
