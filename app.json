@@ -17,7 +17,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cberman.GottaGo"
+      "bundleIdentifier": "com.cberman.GottaGo",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Do you want to allow this app to use your location information to find the closest public bathrooms to you?"
+      }
     },
     "android": {
       "adaptiveIcon": {
