@@ -17,7 +17,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cberman.GottaGo"
+      "bundleIdentifier": "com.cberman.GottaGo",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Nós utilizamos sua localização para filtrar o conteúdo de acordo com sua região ",
+        "NSLocationAlwaysUsageDescription": "Nós utilizamos sua localização para filtrar o conteúdo de acordo com sua região "
+      }
     },
     "android": {
       "adaptiveIcon": {
