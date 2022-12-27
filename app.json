@@ -19,8 +19,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.cberman.GottaGo",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Nós utilizamos sua localização para filtrar o conteúdo de acordo com sua região ",
-        "NSLocationAlwaysUsageDescription": "Nós utilizamos sua localização para filtrar o conteúdo de acordo com sua região "
+        "NSLocationWhenInUseUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!",
+        "NSLocationAlwaysUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!"
       }
     },
     "android": {
