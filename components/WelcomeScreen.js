@@ -10,6 +10,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native';
 import Map from './Map';
 
@@ -81,103 +82,112 @@ export default function WelcomeScreen() {
       style={styles.background}
       source={require('../assets/ToiletBackground.png')}
     >
-      <Image style={styles.logo} source={require('../assets/Logo.png')} />
-      <View style={styles.map}>
-        <Map
-          allClosest={allNearby}
-          singleClosest={closestPin}
-          isAccessible={accessible}
-          location={myLocation}
-          bathroom={closestBathroom}
-          changingTable={baby}
-        />
-      </View>
-      <View style={styles.welcomeButtons}>
-        <TouchableOpacity
-          style={styles.closestOnTouch}
-          onPress={touchHandlerClosest}
-        >
-          <View style={styles.closestRestroomButton}>
-            <Text style={styles.closestButtonText}>Closest Restroom</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={styles.test}>
+        <Image style={styles.logo} source={require('../assets/Logo.png')} />
 
-        {accessible ? (
+        <View style={styles.map}>
+          <Map
+            allClosest={allNearby}
+            singleClosest={closestPin}
+            isAccessible={accessible}
+            location={myLocation}
+            bathroom={closestBathroom}
+            changingTable={baby}
+          />
+        </View>
+        <View style={styles.welcomeButtons}>
           <TouchableOpacity
-            style={styles.accessibleButtonActiveTouch}
-            onPress={touchHandlerAccessible}
+            style={styles.closestOnTouch}
+            onPress={touchHandlerClosest}
           >
-            <View style={styles.accessibleButtonActive}>
-              <View>
-                <Image
-                  source={require('../assets/accessible.png')}
-                  style={styles.accessibleLogoActive}
-                />
-              </View>
+            <View style={styles.closestRestroomButton}>
+              <Text style={styles.closestButtonText}>Closest Restroom</Text>
             </View>
           </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.accessibleButtonTouch}
-            onPress={touchHandlerAccessible}
-          >
-            <View style={styles.accessibleButton}>
-              <View>
-                <Image
-                  source={require('../assets/accessible.png')}
-                  style={styles.accessibleLogo}
-                />
+
+          {accessible ? (
+            <TouchableOpacity
+              style={styles.accessibleButtonActiveTouch}
+              onPress={touchHandlerAccessible}
+            >
+              <View style={styles.accessibleButtonActive}>
+                <View>
+                  <Image
+                    source={require('../assets/accessible.png')}
+                    style={styles.accessibleLogoActive}
+                  />
+                </View>
               </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.accessibleButtonTouch}
+              onPress={touchHandlerAccessible}
+            >
+              <View style={styles.accessibleButton}>
+                <View>
+                  <Image
+                    source={require('../assets/accessible.png')}
+                    style={styles.accessibleLogo}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          {baby ? (
+            <TouchableOpacity
+              style={styles.babyButtonActiveTouch}
+              onPress={touchHandlerBaby}
+            >
+              <View style={styles.babyButtonActive}>
+                <View>
+                  <Image
+                    source={require('../assets/changing-logo.png')}
+                    style={styles.changingLogoActive}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.babyButtonTouch}
+              onPress={touchHandlerBaby}
+            >
+              <View style={styles.babyButton}>
+                <View>
+                  <Image
+                    source={require('../assets/changing-logo.png')}
+                    style={styles.changingLogo}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={styles.allNearbyTouch}
+            onPress={touchHandlerNearby}
+          >
+            <View style={styles.allRestroomsButton}>
+              <Text style={styles.allNearButtonText}>All Nearby</Text>
             </View>
           </TouchableOpacity>
-        )}
-        {baby ? (
-          <TouchableOpacity
-            style={styles.babyButtonActiveTouch}
-            onPress={touchHandlerBaby}
-          >
-            <View style={styles.babyButtonActive}>
-              <View>
-                <Image
-                  source={require('../assets/changing-logo.png')}
-                  style={styles.changingLogoActive}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.babyButtonTouch}
-            onPress={touchHandlerBaby}
-          >
-            <View style={styles.babyButton}>
-              <View>
-                <Image
-                  source={require('../assets/changing-logo.png')}
-                  style={styles.changingLogo}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          style={styles.allNearbyTouch}
-          onPress={touchHandlerNearby}
-        >
-          <View style={styles.allRestroomsButton}>
-            <Text style={styles.allNearButtonText}>All Nearby</Text>
-          </View>
-        </TouchableOpacity>
+        </View>
       </View>
     </ImageBackground>
   );
 }
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: 'flex-end',
     padding: 10,
+  },
+  test: {
+    flex: 1,
   },
   accessibleLogo: {
     height: '100%',
@@ -203,15 +213,21 @@ const styles = StyleSheet.create({
   },
   babyButtonTouch: {
     backgroundColor: 'white',
+    height: 0,
   },
-  babyButtonActiveTouch: {},
+  babyButtonActiveTouch: {
+    backgroundColor: 'white',
+    height: 0,
+  },
   closestOnTouch: {
-    marginTop: '20%',
-    height: '0%',
+    marginTop: windowHeight * 0.1,
+    // top: windowHeight * 0.0,
+    height: 0,
     backgroundColor: 'tomato',
   },
   allNearbyTouch: {
     marginTop: '20%',
+
     height: '0%',
     backgroundColor: 'yellow',
   },
@@ -222,9 +238,12 @@ const styles = StyleSheet.create({
   accessibleButtonTouch: {
     zIndex: 10,
     backgroundColor: 'dodgerblue',
+    height: 0,
   },
   welcomeButtons: {
-    marginBottom: '8%',
+    flex: 1,
+    marginBottom: windowHeight * 0.06,
+    marginTop: windowHeight * -0.03,
     height: '25%',
   },
   closestRestroomButton: {
@@ -237,6 +256,7 @@ const styles = StyleSheet.create({
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
+    justifyContent: 'center',
   },
   allRestroomsButton: {
     width: '100%',
@@ -248,6 +268,7 @@ const styles = StyleSheet.create({
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
+    justifyContent: 'center',
   },
   accessibleButton: {
     width: '49%',
@@ -295,27 +316,34 @@ const styles = StyleSheet.create({
   },
   closestButtonText: {
     textAlign: 'center',
-    paddingTop: '2.0%',
+
+    // paddingTop: '2.0%',
     fontSize: 40,
     fontWeight: 'bold',
   },
   allNearButtonText: {
     textAlign: 'center',
-    paddingTop: '2%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // paddingTop: '2%',
     fontSize: 40,
     fontWeight: 'bold',
   },
   map: {
-    marginBottom: 210,
+    flex: 1,
+    marginBottom: windowHeight * 0.15,
+    // marginBottom: 210,
   },
 
   logo: {
     flex: 1,
     width: '100%',
-    left: '4%',
+    left: windowWidth * 0.04,
     alignSelf: 'center',
+
     aspectRatio: 10 / 5.5,
-    bottom: 95,
+    paddingTop: windowHeight * 0.03,
+    bottom: windowHeight * 0.0525,
   },
 
   accessibleText: {

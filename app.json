@@ -2,7 +2,7 @@
   "expo": {
     "name": "GottaGo",
     "slug": "GottaGo",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/appstore.png",
     "userInterfaceStyle": "light",
@@ -19,8 +19,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.cberman.GottaGo",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!",
-        "NSLocationAlwaysUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!"
+        "NSLocationAlwaysUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!",
+        "NSLocationWhenInUseUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!"
       }
     },
     "android": {

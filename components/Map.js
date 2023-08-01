@@ -1,6 +1,7 @@
 import * as React from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import createOpenLink from 'react-native-open-maps';
+
 import {
   StyleSheet,
   Text,
@@ -619,6 +620,9 @@ const Map = (props) => {
   );
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -626,8 +630,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: '100%',
-    height: 400,
+    width: windowWidth * 0.95,
+    height: windowHeight * 0.5,
     borderWidth: 5,
     borderColor: 'black',
   },

@@ -13,5 +13,9 @@ import Map from './components/Map';
 import WelcomeScreen from './components/WelcomeScreen';
 
 export default function App() {
-  return <WelcomeScreen />;
+  return <WelcomeScreen style={styles.welcomeScreen} />;
 }
+
+const styles = StyleSheet.create({
+  welcomeScreen: {},
+});
