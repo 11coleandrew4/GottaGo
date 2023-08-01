@@ -12,6 +12,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+
 import Map from './Map';
 
 export default function WelcomeScreen() {
@@ -179,6 +180,7 @@ export default function WelcomeScreen() {
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const isTablet = windowWidth >= 600;
 
 const styles = StyleSheet.create({
   background: {
@@ -192,24 +194,24 @@ const styles = StyleSheet.create({
   accessibleLogo: {
     height: '100%',
     aspectRatio: 10 / 10,
-    left: '38%',
+    left: isTablet ? '42%' : '38%',
   },
   accessibleLogoActive: {
     height: '100%',
     aspectRatio: 10 / 10,
-    left: '38%',
+    left: isTablet ? '42%' : '38%',
   },
   changingLogo: {
     height: '110%',
     bottom: '9%',
     aspectRatio: 10 / 10,
-    left: '35%',
+    left: isTablet ? '39.5%' : '35%',
   },
   changingLogoActive: {
     height: '110%',
     bottom: '9%',
     aspectRatio: 10 / 10,
-    left: '35%',
+    left: isTablet ? '39.5%' : '35%',
   },
   babyButtonTouch: {
     backgroundColor: 'white',
@@ -242,13 +244,17 @@ const styles = StyleSheet.create({
   },
   welcomeButtons: {
     flex: 1,
+    flexShrink: 2,
     marginBottom: windowHeight * 0.06,
     marginTop: windowHeight * -0.03,
-    height: '25%',
+    // top: windowHeight * -0.1,
+    // height: '25%',
   },
+
   closestRestroomButton: {
     width: '100%',
-    aspectRatio: 10 / 1.8,
+    aspectRatio: 10 / (isTablet ? 1.25 : 1.8),
+
     backgroundColor: '#fc5c65',
     marginTop: '2%',
     marginRight: 10,
@@ -262,31 +268,34 @@ const styles = StyleSheet.create({
     width: '100%',
     left: '0%',
     bottom: '-110%',
-    marginTop: '2%%',
     aspectRatio: 10 / 1.8,
     backgroundColor: 'yellow',
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
     justifyContent: 'center',
+    marginTop: isTablet ? windowHeight * -0.025 : '2%',
+    aspectRatio: 10 / (isTablet ? 1.25 : 1.8),
   },
   accessibleButton: {
     width: '49%',
     right: '51%',
     position: 'absolute',
     bottom: '5%',
-    aspectRatio: 10 / 3.2,
+
     backgroundColor: 'dodgerblue',
     borderRadius: '50%',
     borderWidth: 5,
     borderColor: 'black',
+    // marginTop: isTablet ? windowHeight * -0.025 : '2%',
+    aspectRatio: 10 / (isTablet ? 2.25 : 3.22),
   },
   accessibleButtonActive: {
     width: '49%',
     right: '51%',
     position: 'absolute',
     bottom: '5%',
-    aspectRatio: 10 / 3.2,
+    aspectRatio: 10 / (isTablet ? 2.25 : 3.22),
     backgroundColor: 'lawngreen',
     borderRadius: '50%',
     borderWidth: 5,
@@ -297,7 +306,7 @@ const styles = StyleSheet.create({
     left: '51%',
     position: 'absolute',
     bottom: '5%',
-    aspectRatio: 10 / 3.22,
+    aspectRatio: 10 / (isTablet ? 2.25 : 3.22),
     backgroundColor: 'dodgerblue',
     borderRadius: '50%',
     borderWidth: 5,
@@ -308,7 +317,7 @@ const styles = StyleSheet.create({
     left: '51%',
     position: 'absolute',
     bottom: '5%',
-    aspectRatio: 10 / 3.22,
+    aspectRatio: 10 / (isTablet ? 2.25 : 3.22),
     backgroundColor: 'lawngreen',
     borderRadius: '50%',
     borderWidth: 5,
