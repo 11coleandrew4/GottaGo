@@ -114,6 +114,7 @@ const Map = (props) => {
                         latitude: room.latitude,
                         longitude: room.longitude,
                       }}
+                      style={{ height: 50, width: 50 }}
                     >
                       <Callout
                         style={styles.infoContainerNoName}

@@ -2,7 +2,7 @@
   "expo": {
     "name": "GottaGo",
     "slug": "GottaGo",
-    "version": "1.3.0",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/appstore.png",
     "userInterfaceStyle": "light",
@@ -19,8 +19,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.cberman.GottaGo",
       "infoPlist": {
-        "NSLocationAlwaysUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!",
-        "NSLocationWhenInUseUsageDescription": "GottaGo needs to use your location to find the closest public restrooms to you!"
+        "NSLocationAlwaysUsageDescription": "GottaGo Bathroom Finder needs access to your location to help you discover nearby public restrooms. Your location data will be used solely for this purpose and will not be shared with any third parties. Your privacy and convenience are our top priorities, and we appreciate your trust in using GottaGo Bathroom Finder.",
+        "NSLocationWhenInUseUsageDescription": "GottaGo Bathroom Finder needs access to your location to help you discover nearby public restrooms. Your location data will be used solely for this purpose and will not be shared with any third parties. Your privacy and convenience are our top priorities, and we appreciate your trust in using GottaGo Bathroom Finder.",
+        "NSLocationUsageDescription": "GottaGo Bathroom Finder needs access to your location to help you discover nearby public restrooms. Your location data will be used solely for this purpose and will not be shared with any third parties. Your privacy and convenience are our top priorities, and we appreciate your trust in using GottaGo Bathroom Finder.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "GottaGo Bathroom Finder needs access to your location to help you discover nearby public restrooms. Your location data will be used solely for this purpose and will not be shared with any third parties. Your privacy and convenience are our top priorities, and we appreciate your trust in using GottaGo Bathroom Finder."
       }
     },
     "android": {

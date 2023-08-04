@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 import Map from './Map';
@@ -48,6 +49,11 @@ export default function WelcomeScreen() {
         });
       }, 10);
     })();
+    const showAlertDelay = setTimeout(() => {
+      Alert.alert(
+        'GottaGo is getting your current location, this might take a couple of seconds!'
+      );
+    }, 1500);
   }, []);
 
   const touchHandlerClosest = async () => {
@@ -327,7 +333,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
 
     // paddingTop: '2.0%',
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   allNearButtonText: {
@@ -335,7 +341,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // paddingTop: '2%',
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   map: {
